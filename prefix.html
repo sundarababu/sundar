@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prefix Sum Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .array-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px;
+        }
+
+        .box {
+            width: 60px;
+            height: 60px;
+            border: 2px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            transition: 0.5s;
+        }
+
+        .active {
+            background-color: yellow;
+        }
+
+        .done {
+            background-color: lightgreen;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Prefix Sum Animation</h2>
+
+<h3>Original Array</h3>
+<div class="array-container" id="original"></div>
+
+<h3>Prefix Sum Array</h3>
+<div class="array-container" id="prefix"></div>
+
+<button onclick="animatePrefixSum()">Start Animation</button>
+
+<script>
+const arr = [2, 4, 6, 8, 10];
+const originalDiv = document.getElementById("original");
+const prefixDiv = document.getElementById("prefix");
+
+arr.forEach(num => {
+    let box = document.createElement("div");
+    box.className = "box";
+    box.innerText = num;
+    originalDiv.appendChild(box);
+});
+
+arr.forEach(() => {
+    let box = document.createElement("div");
+    box.className = "box";
+    box.innerText = "-";
+    prefixDiv.appendChild(box);
+});
+
+function animatePrefixSum() {
+    let prefixBoxes = document.querySelectorAll("#prefix .box");
+    let originalBoxes = document.querySelectorAll("#original .box");
+
+    let sum = 0;
+    let i = 0;
+
+    const interval = setInterval(() => {
+        if (i > 0) {
+            originalBoxes[i-1].classList.remove("active");
+        }
+
+        originalBoxes[i].classList.add("active");
+
+        sum += arr[i];
+        prefixBoxes[i].innerText = sum;
+        prefixBoxes[i].classList.add("done");
+
+        i++;
+
+        if (i === arr.length) {
+            clearInterval(interval);
+            originalBoxes[arr.length-1].classList.remove("active");
+        }
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
